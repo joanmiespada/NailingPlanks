@@ -1,36 +1,39 @@
 
-function addit(items, nail, plank)
-{
-    if(items[nail]===undefined)
-        items[nail] = new Array([plank]);
-    else
-        items[nail].push(plank);
-}
-
 
 function solution(A,B,C)
 {
+    var iNails=0;
+    var iPlanks=0;
+    var nailed=0;
+    var minimumNailed=Number.MAX_VALUE;
+    var nailsWithPlanks= 0; 
 
-    var totalPlanks= A.length;
-    var totalNails = C.length;
-    var nailsUsed = -1;
-    var lastPlank=0;
-    var nailsUsed = new Array(totalNails); 
-
-    for(var j=0; j<totalNails; j++)
+    while( iNails < C.length)
+    {
+        if(iPlanks < A.length)//or B
         {
-            for(var i=0; i<totalPlanks; i++)
-            {
-                if( A[i] <= C[j] && C[j] <= B[i])
+            if(A[iPlanks] <= C[iNails] && C[iNails] <= B[iPlanks] ) {
+                nailsWithPlanks++; 
+                nailed++;
+                iPlanks++;
+            } else {
+                iNails++;
+                if(nailed === A.length)
                     {
-                        addit(nailsUsed,j,i); 
+                        if(minimumNailed > nailed)
+                            minimumNailed= nailed;  
                     }
+                    /*else if (nailed ===0){
+                        iPlanks=0;
+                        nailed=0;
+                    }*/
+                
             }
-        }
+        }else
+           iNails++;
+    }
 
-    
-    if(nailsUsed.length >= totalPlanks )  return nailsUsed.length ;
-    else return -1;
+    return minimumNailed === Number.MAX_VALUE ? -1: minimumNailed;
 
 }
 
